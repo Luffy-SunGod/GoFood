@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../component/Card'
-import Carousel from '../component/Carousel'
 import Footer from '../component/Footer'
 import Navbar from '../component/Navbar'
 // import { set } from 'mongoose'
 
 export default function Home() {
-    const [search,setSearch]=useState('')
+    const [search, setSearch] = useState('')
     const [foodcat, setfoodcat] = useState([])
     const [fooditem, setfooditem] = useState([])
 
@@ -32,37 +31,37 @@ export default function Home() {
         <div>
             <div><Navbar /></div>
             <div>
-            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" style={{objectFit:"contain !important"}}>
-                <div class="carousel-inner" id='carousel'>
-                    <div className="carousel-caption" style={{"zIndex":"10"}}>
-                        <div className="d-flex justify-content-centre">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={search} onChange={(e)=>setSearch(e.target.value)}/>
-                                {/* <button class="btn btn-outline-success text-white" type="submit">Search</button> */}
+                <div id="carouselExampleFade" className="carousel slide carousel-fade" data-bs-ride="carousel" style={{ objectFit: "contain !important" }}>
+                    <div className="carousel-inner" id='carousel'>
+                        <div className="carousel-caption" style={{ "zIndex": "10" }}>
+                            <div className="d-flex justify-content-centre">
+                                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
+                                {/* <button className="btn btn-outline-success text-white" type="submit">Search</button> */}
+                            </div>
+                        </div>
+                        <div className="carousel-item active">
+                            <img src="https://source.unsplash.com/random/900x700/?burger" className="d-block w-100" alt="..." style={{ filter: "brightness(30%)" }} />
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://source.unsplash.com/random/900x700/?pastry" className="d-block w-100" alt="..." style={{ filter: "brightness(30%)" }} />
+                        </div>
+                        <div className="carousel-item">
+                            <img src="https://source.unsplash.com/random/900x700/?barbeque" className="d-block w-100" alt="..." style={{ filter: "brightness(30%)" }} />
                         </div>
                     </div>
-                    <div class="carousel-item active">
-                        <img src="https://source.unsplash.com/random/900x700/?burger" class="d-block w-100" alt="..." style={{filter:"brightness(30%)"}}/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://source.unsplash.com/random/900x700/?pastry" class="d-block w-100" alt="..." style={{filter:"brightness(30%)"}} />
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://source.unsplash.com/random/900x700/?barbeque" class="d-block w-100" alt="..." style={{filter:"brightness(30%)"}} />
-                    </div>
+                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
             </div>
             <div className='container'>
                 {
-                    foodcat !== []
+                    foodcat.size !== 0
                         ? foodcat.map((data) => {
                             return (
                                 <div className='row mb-3'>
@@ -71,24 +70,22 @@ export default function Home() {
                                     </div>
                                     <hr />
                                     {
-                                        fooditem !== [] ? fooditem.filter((item) => (item.CategoryName === data.CategoryName)&&(item.name.toLowerCase().includes(search.toLocaleLowerCase())))
+                                        fooditem.size !== 0 ? fooditem.filter((item) => (item.CategoryName === data.CategoryName) && (item.name.toLowerCase().includes(search.toLocaleLowerCase())))
                                             .map((filterItems) => {
-                                                    {/* console.log(filterItems) */}
                                                 return (
                                                     <div key={filterItems._id} className='col-12 col-md-6 col-lg-3 '>
-                                                    <Card foodname={filterItems.name} imgSrc={filterItems.img} 
-                                                        option={filterItems.options[0]}
-                                                        desc={filterItems.description}
-                                                    />
+                                                        <Card foodData={filterItems} options={filterItems.options[0]}
+                                                        />
                                                     </div>
                                                 )
-                                            }): ""
+                                            }) : ""
                                     }
                                 </div>
                             )
                         }) : ""
                 }
             </div>
+
             <div><Footer /></div>
 
         </div>

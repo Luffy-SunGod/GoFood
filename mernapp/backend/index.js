@@ -16,7 +16,8 @@ app.get('/',(req,res)=>{
 
 app.use('/api',require("./Routes/Createuser"))
 app.use('/api',require("./Routes/DisplayData"))
+app.use('/api',require("./Routes/OrderData"))
 
 app.listen(port,()=>{
-    console.log("server started");
+    console.log(`server started at ${port}`);
 })

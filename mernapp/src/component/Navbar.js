@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import {Link, useNavigate} from "react-router-dom";
+import Badge from 'react-bootstrap/Badge'
+import {useSelector} from "react-redux";
+import Modal from '../Modal'
+import Cart from '../screens/cart';
 
 export default function Navbar() {
     const navigate=useNavigate()
+    const [cartShow,setCartShow]=useState(false);
+    const cart=useSelector((state)=>{
+        return state.reducer.cart;
+    });
     const handleLogout=()=>{
         {localStorage.removeItem("authToken")}
         navigate('/login')
@@ -27,12 +35,19 @@ export default function Navbar() {
                         {
                             (!localStorage.getItem('authToken'))?
                             <div className='d-flex'>
-                                <Link class="btn bg-white text-success mx-1" to="/login">Login</Link>
-                                <Link class="btn bg-white text-success mx-1" to="/createuser">Signup</Link>
+                                <Link class="btn bg-white text-success mx-1" name="login" to="/login">Login</Link>
+                                <Link class="btn bg-white text-success mx-1" name="signup" to="/createuser">Signup</Link>
                             </div>
                             :
-                            <div>
-                                <div className='btn bg-white text-success mx-2'>My Cart</div>
+                            <div >
+                                <div className='btn bg-white text-success mx-2' onClick={()=>setCartShow(true)}>
+                                    My Cart
+                                    <Badge pill bg="danger">{cart.length}</Badge>
+                                
+                                </div>
+                                    {
+                                        (cartShow?<Modal onClose={()=>setCartShow(false)}><Cart/></Modal>:null)
+                                    }
                                 <div className='btn btn-danger text-white mx-2' onClick={handleLogout}>LogOut</div>                            
                             </div>
 

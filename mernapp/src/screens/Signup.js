@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Signup() {
-    const[credential,setCredential]=useState({name:"",email:"",password:"",geolocation:""})
+    const[credential,setCredential]=useState({name:"",email:"",password:""})
     const handlesubmit= async (e)=>{
         e.preventDefault();
         const response=await fetch('http://localhost:5000/api/createuser',{
@@ -10,7 +10,7 @@ export default function Signup() {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({name:credential.name,email:credential.email,password:credential.password,location:credential.geolocation})
+            body:JSON.stringify({name:credential.name,email:credential.email,password:credential.password})
         })
         const json=await response.json();
         console.log(json);
@@ -40,10 +40,6 @@ export default function Signup() {
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label" >Password</label>
                     <input type="password" className="form-control" id="exampleInputPassword1" name='password' value={credential.password} onChange={onchange}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="adress" className="form-label">Adress</label>
-                    <input type="text" className="form-control" id="adress"  name='geolocation' value={credential.geolocation} onChange={onchange}/>
                 </div>
               
                 <button type="submit" className="btn btn-primary">Submit</button>

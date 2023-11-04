@@ -13,35 +13,38 @@ export default function Login() {
           body:JSON.stringify({email:credential.email,password:credential.password})
       })
       const json=await response.json();
-      console.log(json);
-      console.log(json.success);
-      if(!json.success)alert("invalid password or email ")
-      if(json.success){
+    //   console.log(json);
+      if(!json.success){
+        alert("invalid password or email ")
+        return response.json({"msg":"invalid"})
+    }
+    if(json.success) {
+        localStorage.setItem("userEmail",credential.email);
         localStorage.setItem("authToken",json.authToken);
-        console.log(localStorage.getItem("authToken")); 
-         navigate('/');
-      }
-  }
+        navigate('/');
+        return response.json({"msg":"Success"})
+    }
+}
 
-  const onchange=(e)=>{
-      const{name,value}=e.target;
-      console.log(e);
-      setCredential({...credential,[name]:value});
-  }
+const onchange=(e)=>{
+    const{name,value}=e.target;
+    // console.log(e.target);
+    setCredential({...credential,[name]:value});
+}
   return (
     <>
             <div className="container">
 
             <form onSubmit={handlesubmit}>
-                <div className="mb-3">
+                <div className="mb-3 email-login">
                     <label htmlFor="exampleInputEmail1" className="form-label" >Email address</label>
                     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name='email' value={credential.email} onChange={onchange}/>
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 password-login">
                     <label htmlFor="exampleInputPassword1" className="form-label" >Password</label>
                     <input type="password" className="form-control" id="exampleInputPassword1" name='password' value={credential.password} onChange={onchange}/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary login-btn">Submit</button>
                 <Link to='/createuser' className='m-3 btn btn-danger'>New User??</Link>
             </form>
             </div>

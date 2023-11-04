@@ -13,6 +13,7 @@ const main=async ()=>{
     const catdata=await db.collection('foodCategory').find().toArray()
     global.food_item=data;
     global.food_cat=catdata;
+    
 }
-main(); 
+main()
 module.exports=mongoDb 

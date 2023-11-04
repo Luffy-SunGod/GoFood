@@ -17,6 +17,7 @@ body('password').isLength({ min:5 })
 ]
 ,async(req,res)=>{
     const errors = validationResult(req);
+    console.log(req.body);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -37,12 +38,18 @@ body('password').isLength({ min:5 })
     }
 }
 })  
+
 router.post("/login",async(req,res)=>{
         let email=req.body.email
+        let data=req.body
+        console.log(data);
         try {
             let username=await user.findOne({email})
+            console.log(username);
             if(!username)return res.status(400).json({ errors: "Invalid email" });    
-            let result=bcrypt.compare(req.body.password,username.password)
+            let result= await bcrypt.compare(req.body.password,username.password)
+            console.log(result);
+            //  result=result||bcrypt.compare(req.body.email,username.password)
             if(!result)return res.status(400).json({ errors: "Invalid email" });
             const data={
                 user:{
